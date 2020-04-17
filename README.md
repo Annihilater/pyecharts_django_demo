@@ -346,6 +346,10 @@ index.html
 </html>
 ```
 
+效果
+
+![定时全量更新](https://klause-blog-pictures.oss-cn-shanghai.aliyuncs.com/ipic/2020-04-17-111030.gif)
+
 ## 定时增量更新图表
 
 index.html

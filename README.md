@@ -500,3 +500,5 @@ class IndexView(APIView):
     def get(self, request, *args, **kwargs):
         return HttpResponse(content=open("./templates/index.html").read())
 ```
+
+![定时增量更新](https://raw.githubusercontent.com/Annihilater/pyecharts_django_demo/front_back_separation_increment/picture/%E5%AE%9A%E6%97%B6%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0.gif)

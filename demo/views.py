@@ -7,7 +7,7 @@ from random import randrange
 from django.http import HttpResponse
 from rest_framework.views import APIView
 
-from pyecharts.charts import Bar
+from pyecharts.charts import Line
 from pyecharts import options as opts
 
 
@@ -45,25 +45,36 @@ JsonResponse = json_response
 JsonError = json_error
 
 
-def bar_base() -> Bar:
-    c = (
-        Bar()
-            .add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
-            .add_yaxis("商家A", [randrange(0, 100) for _ in range(6)])
-            .add_yaxis("商家B", [randrange(0, 100) for _ in range(6)])
-            .set_global_opts(title_opts=opts.TitleOpts(title="Bar-基本示例", subtitle="我是副标题"))
+def line_base() -> Line:
+    line = (
+        Line()
+            .add_xaxis(list(range(10)))
+            .add_yaxis(series_name="", y_axis=[randrange(0, 100) for _ in range(10)])
+            .set_global_opts(
+            title_opts=opts.TitleOpts(title="动态数据"),
+            xaxis_opts=opts.AxisOpts(type_="value"),
+            yaxis_opts=opts.AxisOpts(type_="value")
+        )
             .dump_options_with_quotes()
     )
-    return c
+    return line
 
 
 class ChartView(APIView):
-    """数据接口视图"""
     def get(self, request, *args, **kwargs):
-        return JsonResponse(json.loads(bar_base()))
+        return JsonResponse(json.loads(line_base()))
+
+
+cnt = 9
+
+
+class ChartUpdateView(APIView):
+    def get(self, request, *args, **kwargs):
+        global cnt
+        cnt = cnt + 1
+        return JsonResponse({"name": cnt, "value": randrange(0, 100)})
 
 
 class IndexView(APIView):
-    """展示页面视图"""
     def get(self, request, *args, **kwargs):
         return HttpResponse(content=open("./templates/index.html").read())
